@@ -135,6 +135,9 @@
   .td-cat { display: inline-flex; align-items: center; gap: 5px; background: var(--card); padding: 3px 8px; border-radius: 20px; font-size: 11px; color: var(--text-2); }
   .td-del { background: none; border: none; cursor: pointer; color: var(--text-3); padding: 4px; border-radius: 4px; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
   .td-del:hover { color: var(--coral); background: var(--coral-dim); }
+  .td-edit { background: none; border: none; cursor: pointer; color: var(--text-3); padding: 4px; border-radius: 4px; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+  .td-edit:hover { color: var(--teal); background: var(--teal-dim); }
+  .td-actions { display: flex; gap: 4px; align-items: center; }
   .empty-state { padding: 40px 20px; text-align: center; color: var(--text-3); font-size: 13px; line-height: 1.6; }
   .empty-icon { font-size: 32px; margin-bottom: 8px; }
 
@@ -212,12 +215,12 @@
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="brand">
-      <div class="brand-icon">💰</div>
+      <div class="brand-icon">ð°</div>
       <div class="brand-name">Cash<span>Flow</span></div>
     </div>
     <div class="period-nav">
       <button class="period-btn" onclick="changePeriod(-1)">&#8592;</button>
-      <div class="period-label" id="period-label">—</div>
+      <div class="period-label" id="period-label">â</div>
       <button class="period-btn" onclick="changePeriod(1)">&#8594;</button>
     </div>
     <div class="topbar-right">
@@ -225,7 +228,7 @@
         <div class="sync-dot" id="sync-dot"></div>
         <span id="sync-label">Tidak tersambung</span>
       </div>
-      <button class="period-btn" onclick="signOut()" title="Keluar dari Google" style="font-size:11px">⏏ Keluar</button>
+      <button class="period-btn" onclick="signOut()" title="Keluar dari Google" style="font-size:11px">â Keluar</button>
     </div>
   </div>
 
@@ -260,8 +263,8 @@
       <div class="panel-section">
         <div class="panel-title"><div class="panel-title-dot" style="background:var(--teal)"></div>Tambah Transaksi</div>
         <div class="type-toggle">
-          <div class="type-btn active-income" id="btn-income" onclick="setType('income')">＋ Pemasukan</div>
-          <div class="type-btn" id="btn-expense" onclick="setType('expense')">－ Pengeluaran</div>
+          <div class="type-btn active-income" id="btn-income" onclick="setType('income')">ï¼ Pemasukan</div>
+          <div class="type-btn" id="btn-expense" onclick="setType('expense')">ï¼ Pengeluaran</div>
         </div>
         <div class="form-row">
           <label>Keterangan</label>
@@ -277,7 +280,7 @@
         </div>
         <div style="margin-top:8px">
           <button class="add-btn add-income" id="add-btn" onclick="addTransaction()">
-            <span>＋</span><span id="add-btn-label">Tambah Pemasukan</span>
+            <span>ï¼</span><span id="add-btn-label">Tambah Pemasukan</span>
           </button>
         </div>
       </div>
@@ -331,14 +334,14 @@
         </div>
         <div class="table-wrap">
           <table><thead><tr><th>Tanggal</th><th>Keterangan</th><th>Kategori</th><th style="text-align:right">Jumlah</th><th></th></tr></thead>
-          <tbody id="tx-body"><tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📋</div>Belum ada transaksi.</div></td></tr></tbody></table>
+          <tbody id="tx-body"><tr><td colspan="5"><div class="empty-state"><div class="empty-icon">ð</div>Belum ada transaksi.</div></td></tr></tbody></table>
         </div>
       </div>
 
       <div class="goal-section">
         <div class="chart-header" style="margin-bottom:14px">
           <div class="section-title">Target Tabungan Bulanan</div>
-          <button class="goal-edit" onclick="openGoalModal()">✎ Ubah Target</button>
+          <button class="goal-edit" onclick="openGoalModal()">â Ubah Target</button>
         </div>
         <div class="goal-card">
           <div class="goal-header">
@@ -356,19 +359,19 @@
 <!-- AUTH SCREEN -->
 <div class="auth-screen" id="auth-screen">
   <div class="auth-card">
-    <div class="auth-logo">💰</div>
+    <div class="auth-logo">ð°</div>
     <div class="auth-title">Cash Flow Planner</div>
     <div class="auth-sub">Masukkan Google Client ID untuk menyimpan data ke Google Drive Anda secara otomatis di semua perangkat.</div>
 
     <div class="auth-setup">
-      <div class="auth-setup-title">Setup Sekali — Panduan Singkat</div>
+      <div class="auth-setup-title">Setup Sekali â Panduan Singkat</div>
       <div class="auth-steps">
         <div class="auth-step"><div class="auth-step-num">1</div><div class="auth-step-text">Buka <a href="https://console.cloud.google.com" target="_blank" style="color:var(--teal)">console.cloud.google.com</a>, buat project baru (nama bebas, mis. <code>cashflow-app</code>)</div></div>
-        <div class="auth-step"><div class="auth-step-num">2</div><div class="auth-step-text">Di menu kiri: <code>APIs &amp; Services</code> → <code>Enable APIs</code> → aktifkan <code>Google Drive API</code></div></div>
-        <div class="auth-step"><div class="auth-step-num">3</div><div class="auth-step-text"><code>APIs &amp; Services</code> → <code>OAuth consent screen</code> → pilih <code>External</code> → isi nama app → simpan</div></div>
-        <div class="auth-step"><div class="auth-step-num">4</div><div class="auth-step-text"><code>Credentials</code> → <code>Create Credentials</code> → <code>OAuth 2.0 Client ID</code> → tipe: <code>Web application</code></div></div>
+        <div class="auth-step"><div class="auth-step-num">2</div><div class="auth-step-text">Di menu kiri: <code>APIs &amp; Services</code> â <code>Enable APIs</code> â aktifkan <code>Google Drive API</code></div></div>
+        <div class="auth-step"><div class="auth-step-num">3</div><div class="auth-step-text"><code>APIs &amp; Services</code> â <code>OAuth consent screen</code> â pilih <code>External</code> â isi nama app â simpan</div></div>
+        <div class="auth-step"><div class="auth-step-num">4</div><div class="auth-step-text"><code>Credentials</code> â <code>Create Credentials</code> â <code>OAuth 2.0 Client ID</code> â tipe: <code>Web application</code></div></div>
         <div class="auth-step"><div class="auth-step-num">5</div><div class="auth-step-text">Di kolom <code>Authorized JavaScript origins</code>, tambahkan: <code>null</code> (untuk buka dari file lokal)</div></div>
-        <div class="auth-step"><div class="auth-step-num">6</div><div class="auth-step-text">Copy <code>Client ID</code> yang muncul → paste di bawah</div></div>
+        <div class="auth-step"><div class="auth-step-num">6</div><div class="auth-step-text">Copy <code>Client ID</code> yang muncul â paste di bawah</div></div>
       </div>
     </div>
 
@@ -391,7 +394,7 @@
 <!-- GOAL MODAL -->
 <div class="modal-overlay" id="goal-modal">
   <div class="modal">
-    <h3>🎯 Atur Target Tabungan</h3>
+    <h3>ð¯ Atur Target Tabungan</h3>
     <div class="form-row">
       <label>Target Tabungan per Bulan (Rp)</label>
       <input type="number" class="form-input" id="goal-input" placeholder="5000000" min="0" />
@@ -399,6 +402,34 @@
     <div class="modal-actions">
       <button class="modal-btn modal-cancel" onclick="closeGoalModal()">Batal</button>
       <button class="modal-btn modal-save" onclick="saveGoal()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-box">
+    <div class="modal-title">✏️ Edit Transaksi</div>
+    <input type="hidden" id="edit-tx-id">
+    <div class="form-row">
+      <label>Deskripsi</label>
+      <input class="form-input" id="edit-desc" placeholder="Deskripsi...">
+    </div>
+    <div class="form-row">
+      <label>Jumlah (Rp)</label>
+      <input class="form-input" id="edit-amount" type="number" min="0">
+    </div>
+    <div class="form-row">
+      <label>Kategori</label>
+      <select class="form-input" id="edit-cat"></select>
+    </div>
+    <div class="form-row">
+      <label>Tanggal</label>
+      <input class="form-input" id="edit-date" type="date">
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-cancel" onclick="closeEditModal()">Batal</button>
+      <button class="modal-btn modal-save" onclick="updateTransaction()">Simpan</button>
     </div>
   </div>
 </div>
@@ -411,14 +442,14 @@
 <script src="https://apis.google.com/js/api.js" async></script>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────────────────────
+// âââ CONFIG âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const DRIVE_FILE_NAME = 'cashflow_planner_data.json';
 const DRIVE_MIME = 'application/json';
 const SCOPES = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.file';
 const LOCAL_KEY = 'cfp_data_v3';
 const CLIENT_ID_KEY = 'cfp_client_id';
 
-// ─── STATE ────────────────────────────────────────────────────────────────────
+// âââ STATE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 let state = {
   transactions: [],
   savingsGoal: 5000000,
@@ -435,16 +466,16 @@ const CAT_COLORS = ['#00D4B8','#F5A623','#FF6B6B','#A78BFA','#60A5FA','#34D399',
 let currentType = 'income';
 let currentFilter = 'all';
 
-// ─── TOAST ────────────────────────────────────────────────────────────────────
+// âââ TOAST ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function toast(msg, type='success') {
   const el = document.getElementById('toast');
-  el.textContent = (type==='success'?'✓ ':type==='error'?'✕ ':'⟳ ') + msg;
+  el.textContent = (type==='success'?'â ':type==='error'?'â ':'â³ ') + msg;
   el.className = `toast show ${type}`;
   clearTimeout(el._t);
   el._t = setTimeout(()=>el.classList.remove('show'), 3000);
 }
 
-// ─── AUTH ─────────────────────────────────────────────────────────────────────
+// âââ AUTH âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function initGoogleAuth() {
   const clientId = document.getElementById('client-id-input').value.trim();
   if (!clientId || !clientId.includes('.apps.googleusercontent.com')) {
@@ -509,7 +540,7 @@ window.addEventListener('load', () => {
   if (savedId) document.getElementById('client-id-input').value = savedId;
 });
 
-// ─── SYNC STATUS ──────────────────────────────────────────────────────────────
+// âââ SYNC STATUS ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function setSyncStatus(status, label) {
   const dot = document.getElementById('sync-dot');
   const lbl = document.getElementById('sync-label');
@@ -523,7 +554,7 @@ async function manualSync() {
   await saveToDrive();
 }
 
-// ─── GOOGLE DRIVE ─────────────────────────────────────────────────────────────
+// âââ GOOGLE DRIVE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 async function driveRequest(url, options={}) {
   const resp = await fetch(url, {
     ...options,
@@ -593,7 +624,7 @@ async function saveToDrive() {
   }
 }
 
-// ─── LOCAL STORAGE ────────────────────────────────────────────────────────────
+// âââ LOCAL STORAGE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function saveLocal() { try { localStorage.setItem(LOCAL_KEY, JSON.stringify(state)); } catch(e){} }
 function loadLocal() { try { const d = localStorage.getItem(LOCAL_KEY); if(d) state = {...state,...JSON.parse(d)}; } catch(e){} }
 
@@ -606,7 +637,7 @@ function save() {
   }
 }
 
-// ─── PERIOD ───────────────────────────────────────────────────────────────────
+// âââ PERIOD âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 function changePeriod(dir) {
   state.currentPeriod.month += dir;
@@ -619,7 +650,7 @@ function periodTxs() {
   return state.transactions.filter(tx=>{ const d=new Date(tx.date); return d.getFullYear()===year&&d.getMonth()===month; });
 }
 
-// ─── FORMAT ───────────────────────────────────────────────────────────────────
+// âââ FORMAT âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function fmt(n) {
   if(Math.abs(n)>=1e9) return 'Rp '+(n/1e9).toFixed(1)+'M';
   if(Math.abs(n)>=1e6) return 'Rp '+(n/1e6).toFixed(1)+' jt';
@@ -629,7 +660,7 @@ function fmt(n) {
 function fmtFull(n) { return 'Rp '+Math.abs(n).toLocaleString('id-ID'); }
 function fmtDate(s) { const d=new Date(s); return d.toLocaleDateString('id-ID',{day:'2-digit',month:'short'}); }
 
-// ─── TYPE TOGGLE ──────────────────────────────────────────────────────────────
+// âââ TYPE TOGGLE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function setType(t) {
   currentType = t;
   const bi=document.getElementById('btn-income'), be=document.getElementById('btn-expense');
@@ -643,7 +674,7 @@ function fillCats() {
   sel.innerHTML = (currentType==='income'?INCOME_CATS:EXPENSE_CATS).map(c=>`<option>${c}</option>`).join('');
 }
 
-// ─── TRANSACTIONS ─────────────────────────────────────────────────────────────
+// âââ TRANSACTIONS âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function addTransaction() {
   const desc=document.getElementById('inp-desc').value.trim();
   const amount=parseFloat(document.getElementById('inp-amount').value);
@@ -656,6 +687,33 @@ function addTransaction() {
   save(); render();
   toast(currentType==='income'?'Pemasukan ditambahkan':'Pengeluaran ditambahkan');
 }
+function editTransaction(id) {
+  const tx = state.transactions.find(t => t.id === id);
+  if (!tx) return;
+  document.getElementById('edit-tx-id').value = tx.id;
+  document.getElementById('edit-desc').value = tx.desc;
+  document.getElementById('edit-amount').value = tx.amount;
+  document.getElementById('edit-date').value = tx.date;
+  const sel = document.getElementById('edit-cat');
+  const cats = tx.type === 'income' ? INCOME_CATS : EXPENSE_CATS;
+  sel.innerHTML = cats.map(c => `<option value="${c}" ${c===tx.cat?'selected':''}>${c}</option>`).join('');
+  document.getElementById('edit-modal').classList.add('open');
+}
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+}
+function updateTransaction() {
+  const id = parseInt(document.getElementById('edit-tx-id').value);
+  const desc = document.getElementById('edit-desc').value.trim();
+  const amount = parseFloat(document.getElementById('edit-amount').value);
+  const cat = document.getElementById('edit-cat').value;
+  const date = document.getElementById('edit-date').value;
+  if (!desc || !amount || amount <= 0 || !date) { toast('Mohon isi semua kolom', 'error'); return; }
+  const tx = state.transactions.find(t => t.id === id);
+  if (!tx) return;
+  tx.desc = desc; tx.amount = amount; tx.cat = cat; tx.date = date;
+  save(); render(); closeEditModal(); toast('Transaksi diperbarui');
+}
 function deleteTransaction(id) {
   if(!confirm('Hapus transaksi ini?')) return;
   state.transactions=state.transactions.filter(tx=>tx.id!==id);
@@ -667,7 +725,7 @@ function setFilter(f,el) {
   el.classList.add('active'); renderTable();
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────────────
+// âââ RENDER âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function render() {
   const {year,month}=state.currentPeriod;
   document.getElementById('period-label').textContent=MONTHS[month]+' '+year;
@@ -712,14 +770,14 @@ function renderTable() {
   const filtered=currentFilter==='all'?txs:txs.filter(t=>t.type===currentFilter);
   const sorted=[...filtered].sort((a,b)=>new Date(b.date)-new Date(a.date));
   const el=document.getElementById('tx-body');
-  if(!sorted.length){el.innerHTML=`<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📋</div>Tidak ada transaksi.</div></td></tr>`;return;}
+  if(!sorted.length){el.innerHTML=`<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">ð</div>Tidak ada transaksi.</div></td></tr>`;return;}
   el.innerHTML=sorted.map(tx=>`
     <tr>
       <td style="color:var(--text-2)">${fmtDate(tx.date)}</td>
       <td>${tx.desc}</td>
       <td><span class="td-cat">${tx.cat}</span></td>
       <td style="text-align:right" class="${tx.type==='income'?'td-income':'td-expense'}">${tx.type==='income'?'+':'-'}${fmtFull(tx.amount)}</td>
-      <td><button class="td-del" onclick="deleteTransaction(${tx.id})" title="Hapus">✕</button></td>
+      <td><button class="td-del" onclick="deleteTransaction(${tx.id})" title="Hapus">â</button></td>
     </tr>`).join('');
 }
 
@@ -770,7 +828,7 @@ function renderGoal(balance) {
   document.getElementById('goal-bar').style.width=pct+'%';
   document.getElementById('goal-bar').style.background=pct>=100?'#2DD4BF':pct>50?'#00D4B8':'#F5A623';
   document.getElementById('goal-pct').textContent=pct+'% tercapai';
-  document.getElementById('goal-remaining').textContent=pct>=100?'✓ Target tercapai!':'Kekurangan: '+fmtFull(remaining);
+  document.getElementById('goal-remaining').textContent=pct>=100?'â Target tercapai!':'Kekurangan: '+fmtFull(remaining);
 }
 
 function openGoalModal(){document.getElementById('goal-input').value=state.savingsGoal;document.getElementById('goal-modal').classList.add('open');}
@@ -778,7 +836,7 @@ function closeGoalModal(){document.getElementById('goal-modal').classList.remove
 function saveGoal(){const v=parseFloat(document.getElementById('goal-input').value);if(v>0){state.savingsGoal=v;save();render();}closeGoalModal();}
 document.getElementById('goal-modal').addEventListener('click',function(e){if(e.target===this)closeGoalModal();});
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
+// âââ INIT âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function init() {
   document.getElementById('inp-date').value=new Date().toISOString().split('T')[0];
   fillCats();
