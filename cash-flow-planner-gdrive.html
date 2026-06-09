@@ -135,6 +135,9 @@
   .td-cat { display: inline-flex; align-items: center; gap: 5px; background: var(--card); padding: 3px 8px; border-radius: 20px; font-size: 11px; color: var(--text-2); }
   .td-del { background: none; border: none; cursor: pointer; color: var(--text-3); padding: 4px; border-radius: 4px; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
   .td-del:hover { color: var(--coral); background: var(--coral-dim); }
+  .td-edit { background: none; border: none; cursor: pointer; color: var(--text-3); padding: 4px; border-radius: 4px; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+  .td-edit:hover { color: var(--teal); background: var(--teal-dim); }
+  .td-actions { display: flex; gap: 2px; justify-content: flex-end; }
   .empty-state { padding: 40px 20px; text-align: center; color: var(--text-3); font-size: 13px; line-height: 1.6; }
   .empty-icon { font-size: 32px; margin-bottom: 8px; }
 
@@ -385,6 +388,33 @@
     <button class="skip-btn" onclick="useLocalMode()">Gunakan tanpa Google Drive (data lokal saja)</button>
 
     <div class="auth-hint" id="auth-hint" style="margin-top:16px;display:none"></div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <h3>✏️ Edit Transaksi</h3>
+    <div class="type-toggle" style="margin-bottom:12px">
+      <div class="type-btn" id="edit-btn-income" onclick="setEditType('income')">＋ Pemasukan</div>
+      <div class="type-btn" id="edit-btn-expense" onclick="setEditType('expense')">－ Pengeluaran</div>
+    </div>
+    <div class="form-row">
+      <label>Keterangan</label>
+      <input type="text" class="form-input" id="edit-desc" placeholder="Keterangan transaksi" />
+    </div>
+    <div class="form-row">
+      <label>Jumlah (Rp)</label>
+      <input type="number" class="form-input" id="edit-amount" placeholder="0" min="0" />
+    </div>
+    <div class="form-row-2">
+      <div class="form-row" style="margin:0"><label>Kategori</label><select class="form-input" id="edit-cat"></select></div>
+      <div class="form-row" style="margin:0"><label>Tanggal</label><input type="date" class="form-input" id="edit-date" /></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-cancel" onclick="closeEditModal()">Batal</button>
+      <button class="modal-btn modal-save" onclick="saveEdit()">Simpan Perubahan</button>
+    </div>
   </div>
 </div>
 
@@ -719,7 +749,7 @@ function renderTable() {
       <td>${tx.desc}</td>
       <td><span class="td-cat">${tx.cat}</span></td>
       <td style="text-align:right" class="${tx.type==='income'?'td-income':'td-expense'}">${tx.type==='income'?'+':'-'}${fmtFull(tx.amount)}</td>
-      <td><button class="td-del" onclick="deleteTransaction(${tx.id})" title="Hapus">✕</button></td>
+      <td><div class="td-actions"><button class="td-edit" onclick="openEditModal(${tx.id})" title="Edit">✎</button><button class="td-del" onclick="deleteTransaction(${tx.id})" title="Hapus">✕</button></div></td>
     </tr>`).join('');
 }
 
@@ -777,6 +807,59 @@ function openGoalModal(){document.getElementById('goal-input').value=state.savin
 function closeGoalModal(){document.getElementById('goal-modal').classList.remove('open');}
 function saveGoal(){const v=parseFloat(document.getElementById('goal-input').value);if(v>0){state.savingsGoal=v;save();render();}closeGoalModal();}
 document.getElementById('goal-modal').addEventListener('click',function(e){if(e.target===this)closeGoalModal();});
+
+// ─── EDIT MODAL ───────────────────────────────────────────────────────────────
+let editingId = null;
+let editType = 'income';
+
+function openEditModal(id) {
+  const tx = state.transactions.find(t => t.id === id);
+  if (!tx) return;
+  editingId = id;
+  editType = tx.type;
+  document.getElementById('edit-desc').value = tx.desc;
+  document.getElementById('edit-amount').value = tx.amount;
+  document.getElementById('edit-date').value = tx.date;
+  setEditType(tx.type);
+  // set kategori setelah fillEditCats
+  setTimeout(() => { document.getElementById('edit-cat').value = tx.cat; }, 10);
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function setEditType(t) {
+  editType = t;
+  const bi = document.getElementById('edit-btn-income');
+  const be = document.getElementById('edit-btn-expense');
+  if (t === 'income') { bi.className = 'type-btn active-income'; be.className = 'type-btn'; }
+  else { be.className = 'type-btn active-expense'; bi.className = 'type-btn'; }
+  fillEditCats();
+}
+
+function fillEditCats() {
+  const sel = document.getElementById('edit-cat');
+  sel.innerHTML = (editType === 'income' ? INCOME_CATS : EXPENSE_CATS).map(c => `<option>${c}</option>`).join('');
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+  editingId = null;
+}
+
+function saveEdit() {
+  const desc = document.getElementById('edit-desc').value.trim();
+  const amount = parseFloat(document.getElementById('edit-amount').value);
+  const cat = document.getElementById('edit-cat').value;
+  const date = document.getElementById('edit-date').value;
+  if (!desc || !amount || amount <= 0 || !date) { toast('Mohon isi semua kolom', 'error'); return; }
+  const idx = state.transactions.findIndex(t => t.id === editingId);
+  if (idx === -1) return;
+  state.transactions[idx] = { ...state.transactions[idx], type: editType, desc, amount, cat, date };
+  save(); render();
+  closeEditModal();
+  toast('Transaksi berhasil diperbarui');
+}
+
+document.getElementById('edit-modal').addEventListener('click', function(e) { if (e.target === this) closeEditModal(); });
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 function init() {
